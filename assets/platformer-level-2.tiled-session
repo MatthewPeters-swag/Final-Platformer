@@ -1,0 +1,70 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "platformer-level-2.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
+        "/Users/matt/Downloads/platformer-level-1.tmx": {
+            "scale": 0.5542,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 488.0909418982317,
+                "y": 202.0931071815229
+            }
+        },
+        "/Users/matt/Downloads/platformer-level-1.tmx#kenny_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-2.tmx": {
+            "scale": 0.9101,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1166.3553455664212,
+                "y": 263.7072849137457
+            }
+        },
+        "platformer-level-2.tmx#kenny_tilset_packed": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx": {
+            "scale": 0.5607,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 412.8767611913679,
+                "y": 205.10076689851974
+            }
+        },
+        "untitled.tmx#kenny_tilset_packed": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "/Users/matt/Desktop/CMPM 120 Projects/PlatformerImplementation/assets",
+    "last.imagePath": "/Users/matt/Desktop/CMPM 120 Projects/PlatformerImplementation/assets",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 80,
+    "openFiles": [
+        "platformer-level-2.tmx"
+    ],
+    "project": "platformer-level-2.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "platformer-level-2.tmx",
+        "/Users/matt/Downloads/platformer-level-1.tmx",
+        "untitled.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 18
+    }
+}
