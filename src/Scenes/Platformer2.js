@@ -4,6 +4,7 @@ class Platformer2 extends Phaser.Scene {
     }
 
     init() {
+        //We win
         // variables and settings
         this.ACCELERATION = 400;
         this.DRAG = 500;    // DRAG < ACCELERATION = icy slide
