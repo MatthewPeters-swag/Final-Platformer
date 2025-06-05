@@ -33,8 +33,9 @@ class Platformer2 extends Phaser.Scene {
         this.jumpSound = this.sound.add("jumpS");
 
         // Create a layer
+        this.backgroundLayer = this.map.createLayer("Background", this.tileset1, 0, 0);
         this.groundLayer = this.map.createLayer("Ground-n-Platforms", this.tileset, 0, 0);
-
+        
         // Make it collidable
         this.groundLayer.setCollisionByProperty({
             collides: true
@@ -149,14 +150,41 @@ class Platformer2 extends Phaser.Scene {
     
         }
 
-
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(100, 100, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
         my.sprite.player.setMaxVelocity(250, 1000);
 
+        my.sprite.badGuy1 = this.physics.add.sprite(1200, 150, "platformer_characters", "tile_0012.png");
+        my.sprite.badGuy2 = this.physics.add.sprite(200, -20, "platformer_characters", "tile_0012.png");
+        my.sprite.badGuy1.setCollideWorldBounds(true);
+        my.sprite.badGuy1.setMaxVelocity(100, 1000);
+        my.sprite.badGuy2.setCollideWorldBounds(true);
+        my.sprite.badGuy2.setMaxVelocity(100, 1000);
+
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer, propertyCollider, collisionProcess);
+        this.physics.add.collider(my.sprite.badGuy1, this.groundLayer, propertyCollider);
+        this.physics.add.collider(my.sprite.badGuy2, this.groundLayer, propertyCollider);
+
+        this.physics.add.overlap(my.sprite.player, my.sprite.badGuy2, () => {
+            if (my.sprite.player.body.velocity.y > 0 && my.sprite.player.body.y <= my.sprite.badGuy2.body.y) {
+                my.sprite.badGuy2.disableBody(true, true); 
+                my.sprite.player.setVelocityY(-300); 
+            } else {
+            this.scene.restart();
+            }
+        }, null, this);
+        
+
+        this.physics.add.overlap(my.sprite.player, my.sprite.badGuy1, () => {
+            if (my.sprite.player.body.velocity.y > 0 && my.sprite.player.body.y <= my.sprite.badGuy1.body.y) {
+                my.sprite.badGuy1.disableBody(true, true); 
+                my.sprite.player.setVelocityY(-300); 
+            } else {
+            this.scene.restart();
+            }
+        }, null, this);
 
         // TODO: Add coin collision handler
          // Handle collision detection with coins
@@ -175,7 +203,6 @@ class Platformer2 extends Phaser.Scene {
             });
 
         });
-
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -233,6 +260,32 @@ class Platformer2 extends Phaser.Scene {
     }
 
     update() {
+        if(my.sprite.badGuy1.body.blocked.down && x == true) {
+            my.sprite.badGuy1.setAccelerationX(-this.ACCELERATION);
+        } 
+        if (my.sprite.badGuy1.body.blocked.left && x == true) {
+            x = false;
+        }
+        if (my.sprite.badGuy1.body.blocked.right && x == false) {
+            x = true;
+        }
+        if(my.sprite.badGuy1.body.blocked.down && x == false) {
+            my.sprite.badGuy1.setAccelerationX(this.ACCELERATION);
+        }
+
+        if(my.sprite.badGuy2.body.blocked.down && y == true) {
+            my.sprite.badGuy2.setAccelerationX(-this.ACCELERATION);
+        } 
+        if (my.sprite.badGuy2.body.blocked.left && y == true) {
+            y = false;
+        }
+        if (my.sprite.badGuy2.body.blocked.right && x == false) {
+            y = true;
+        }
+        if(my.sprite.badGuy2.body.blocked.down && y == false) {
+            my.sprite.badGuy2.setAccelerationX(this.ACCELERATION);
+        }
+
         if(cursors.left.isDown) {
             my.sprite.player.setAccelerationX(-this.ACCELERATION);
             my.sprite.player.resetFlip();
@@ -281,8 +334,7 @@ class Platformer2 extends Phaser.Scene {
         }
 
         if (my.sprite.player.y >= 600) {
-            my.sprite.player.y = 100;
-            my.sprite.player.x = 100;
+            this.scene.restart();
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.cKey)) {

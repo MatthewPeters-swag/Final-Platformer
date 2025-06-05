@@ -40,5 +40,7 @@ var my = {sprite: {}, text: {}, vfx: {}};
 let coinCounter = 0;
 let coinText;
 let wintext;
+let x = true;
+let y = true;
 
 const game = new Phaser.Game(config);
