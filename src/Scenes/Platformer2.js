@@ -368,7 +368,7 @@ class Platformer2 extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.lKey)) {
-            this.scene.start("platformerScene");
+            this.scene.start("levelSelect");
         } 
     }
 }
