@@ -33,8 +33,17 @@ class LevelSelect extends Phaser.Scene {
               this.scene.start('platformerScene2');
           });
 
+        const goBack = this.add.text(this.scale.width / 2, 320, 'Go Back', {
+            fontSize: '24px',
+            fill: '#00ff00'
+        }).setOrigin(0.5)
+          .setInteractive({ useHandCursor: true })
+          .on('pointerdown', () => {
+              this.scene.start('mainMenu');
+          });
+
         // highlight on hover
-        [level1Text, level2Text].forEach(text => {
+        [level1Text, level2Text, goBack].forEach(text => {
             text.on('pointerover', () => text.setStyle({ fill: '#ffff00' }));
             text.on('pointerout', () => text.setStyle({ fill: text === level1Text ? '#00ff00' : '#00ff00' }));
         });

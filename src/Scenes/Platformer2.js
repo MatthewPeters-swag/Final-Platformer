@@ -9,9 +9,12 @@ class Platformer2 extends Phaser.Scene {
         this.ACCELERATION = 400;
         this.DRAG = 500;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -600;
+        this.JUMP_VELOCITY = -450;
         this.PARTICLE_VELOCITY = 50;
         this.SCALE = 2.0;
+        this.canDoubleJump = true;
+        this.jumps = 0;
+        this.maxJumps = 1;
     }
 
     formatCoins(num) {
@@ -196,7 +199,7 @@ class Platformer2 extends Phaser.Scene {
 
         this.physics.add.overlap(my.sprite.player, this.gem, (obj1, obj2) => {
             obj2.destroy();
-            my.winText = this.add.text(1200, 0, "You Win! Press R to restart.", {
+            my.winText = this.add.text(1000, 0, "You Win! Press L to go to level select.", {
                 fontSize: '12px',
                 fill: '#vheyfcs',
                 fontFamily: 'monospace'
@@ -344,24 +347,32 @@ class Platformer2 extends Phaser.Scene {
 
         // player jump
         // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-        if(!my.sprite.player.body.blocked.down) {
-            my.sprite.player.anims.play('jump');
-        }
-        if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
-            my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
-            this.jumpSound.play();
-            my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
-
-            my.vfx.jumping.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
-            if (my.sprite.player.body.blocked.down) {
-
+        if (Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            if (my.sprite.player.body.blocked.down || this.jumps < this.maxJumps) {
+                my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
+                this.jumpSound.play();
+        
+                my.vfx.jumping.startFollow(
+                    my.sprite.player, 
+                    my.sprite.player.displayWidth / 2 - 10, 
+                    my.sprite.player.displayHeight / 2 - 5, 
+                    false
+                );
+                my.vfx.jumping.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
                 my.vfx.jumping.start();
-
+        
+                this.time.delayedCall(100, () => {
+                    my.vfx.jumping.stop();
+                });
+        
+                this.jumps++;
             }
-            this.time.delayedCall(100, () => {
-                my.vfx.jumping.stop();
-            });
         }
+        
+        if (my.sprite.player.body.blocked.down) {
+            this.jumps = 0;
+        }
+        
 
         if(Phaser.Input.Keyboard.JustDown(this.rKey)) {
             this.scene.restart();
